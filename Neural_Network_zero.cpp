@@ -340,7 +340,7 @@ void Net::backProp(const vector<double> &targetVals)
         }
     }
 }
-
+// class NEt
 void Net::feedForward(const vector<double> &inputVals)
 {
     //Check if the data have the same lenght that the input values
@@ -361,8 +361,7 @@ void Net::feedForward(const vector<double> &inputVals)
         }
     }
 }
-
-Net::Net(const vector<unsigned> &topology)
+//Class netnsigned> &topology)
 {
     unsigned numLayers = topology.size();
     for (unsigned layerNum = 0; layerNum < numLayers; ++layerNum) {
@@ -373,7 +372,8 @@ Net::Net(const vector<unsigned> &topology)
         // We have a new layer, now fill it with neurons, and
         // add a bias neuron in each layer.
         for (unsigned neuronNum = 0; neuronNum <= topology[layerNum]; ++neuronNum) {
-            m_layers.back().push_back(Neuron(numOutputs, neuronNum));
+            m_layers.back().push_back(Neuron
+Net::Net(const vector<u(numOutputs, neuronNum));
             cout << "Made a Neuron!" << endl;
         }
 
