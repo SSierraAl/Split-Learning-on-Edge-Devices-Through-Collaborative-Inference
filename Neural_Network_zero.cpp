@@ -21,6 +21,8 @@ using namespace std;
 // program, e.g., connect to a database, or take a stream of data from stdin, or
 // from a file specified by a command line argument, etc.
 
+int NumberGlobalWeight=0;
+
 class TrainingData
 {
 public:
@@ -121,7 +123,7 @@ public:
     Neuron(unsigned numOutputs, unsigned myIndex);
     void setOutputVal(double val) { m_outputVal = val; }
     double getOutputVal(void) const { return m_outputVal; }
-    void feedForward(const Layer &prevLayer);
+    void feedForward(Layer &prevLayer, int Nlayer, int Nneuron);
     void calcOutputGradients(double targetVal);
     void calcHiddenGradients(const Layer &nextLayer);
     void updateInputWeights(Layer &prevLayer);
@@ -206,19 +208,21 @@ double Neuron::transferFunctionDerivative(double x)
     return 1.0 - x * x;
 }
 
-void Neuron::feedForward(const Layer &prevLayer)
+void Neuron::feedForward(Layer &prevLayer, int Nlayer, int Nneuron)
 {
     double sum = 0.0;
-
     // Sum the previous layer's outputs (which are our inputs)
     // Include the bias node from the previous layer.
-
     for (unsigned n = 0; n < prevLayer.size(); ++n) {
-        sum += prevLayer[n].getOutputVal() *
-                prevLayer[n].m_outputWeights[m_myIndex].weight;
-    }
-
+        sum += prevLayer[n].getOutputVal()*prevLayer[n].m_outputWeights[m_myIndex].weight;
+        cout << "FeedCapa: " << Nlayer << " N: " << n << " My Index: "<< m_myIndex<< " Numero global: "<< NumberGlobalWeight<< endl;
+        cout << "FeedPeso: " << prevLayer[n].m_outputWeights[m_myIndex].weight << endl;
+        cout << "FeedSuma: " << sum << endl;
+        cout << "FeedOutputValprev: "<<prevLayer[n].getOutputVal() <<endl;
+        NumberGlobalWeight++;
+   }
     m_outputVal = Neuron::transferFunction(sum);
+    cout << "FeedValor de salida: "<<m_outputVal << endl;
 }
 
 Neuron::Neuron(unsigned numOutputs, unsigned myIndex)
@@ -256,20 +260,11 @@ void Net::ExportWeights()
     double peso=0.0;
     double Dpeso=0.0;
 
-
-    // forward propagation !!!!!!!!!!!!!!! ojo con el apuntador ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ 
-    //for (unsigned layerNum = 1; layerNum < m_layers.size(); ++layerNum) {
-        //Neuron iteration without bias
-    //    for (unsigned n = 0; n < m_layers[layerNum].size() - 1; ++n) {
-    //        m_layers[layerNum][n].feedForward(prevLayer);
-     //   }
-    //}
-    //Confirmado
     for (unsigned layerNum = 0; layerNum < m_layers.size()-1; ++layerNum) {
 
         for (int n = 0; n < m_layers[layerNum].size(); ++n) {
             peso=m_layers[layerNum][n].m_outputWeights[n].weight;
-            Dpeso=m_layers[layerNum][n].m_outputWeights[n].deltaWeight;
+            //Dpeso=m_layers[layerNum][n].m_outputWeights[n].deltaWeight;
             cout << "Capa: "<<layerNum<< " Neurona: "<< n<< endl;
             cout << "Peso: "<<peso<< endl;
             //cout << "capa 3 pesos? : "<<m_layers[3][0].m_outputWeights[0].weight<< endl;
@@ -280,7 +275,6 @@ void Net::ExportWeights()
 
 
 double Net::m_recentAverageSmoothingFactor = 100.0; // Number of training samples to average over
-
 
 void Net::getResults(vector<double> &resultVals) const
 {
@@ -340,9 +334,11 @@ void Net::backProp(const vector<double> &targetVals)
         }
     }
 }
-// class NEt
+
 void Net::feedForward(const vector<double> &inputVals)
 {
+
+    NumberGlobalWeight=0;
     //Check if the data have the same lenght that the input values
     //minus one due to the bias neuron of the first layer
     assert(inputVals.size() == m_layers[0].size() - 1);
@@ -353,27 +349,28 @@ void Net::feedForward(const vector<double> &inputVals)
     }
 
     // forward propagation !!!!!!!!!!!!!!! ojo con el apuntador ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ 
-    for (unsigned layerNum = 1; layerNum < m_layers.size(); ++layerNum) {
+    for (int layerNum = 1; layerNum < m_layers.size(); ++layerNum) {
         Layer &prevLayer = m_layers[layerNum - 1];
         //Neuron iteration without bias
-        for (unsigned n = 0; n < m_layers[layerNum].size() - 1; ++n) {
-            m_layers[layerNum][n].feedForward(prevLayer);
+        for (int n = 0; n < m_layers[layerNum].size() - 1; ++n) {
+            m_layers[layerNum][n].feedForward(prevLayer, layerNum, n);
+
         }
     }
 }
-//Class netnsigned> &topology)
+//Class net
+Net::Net(const vector<unsigned> &topology)
 {
     unsigned numLayers = topology.size();
     for (unsigned layerNum = 0; layerNum < numLayers; ++layerNum) {
         m_layers.push_back(Layer());
         // The number of outputs of each layer, if is the last layer, then the number of outputs is 0
-        //unsigned numOutputs = layerNum == topology.size() - 1 ? 0 : topology[layerNum + 1];
-        unsigned numOutputs = topology[layerNum + 1];
+        unsigned numOutputs = layerNum == topology.size() - 1 ? 0 : topology[layerNum + 1];
+        //unsigned numOutputs = topology[layerNum + 1];
         // We have a new layer, now fill it with neurons, and
         // add a bias neuron in each layer.
         for (unsigned neuronNum = 0; neuronNum <= topology[layerNum]; ++neuronNum) {
-            m_layers.back().push_back(Neuron
-Net::Net(const vector<u(numOutputs, neuronNum));
+            m_layers.back().push_back(Neuron(numOutputs, neuronNum));
             cout << "Made a Neuron!" << endl;
         }
 
