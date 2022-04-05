@@ -1,8 +1,8 @@
 //---------------------------------------------------------
 //Código para compilar el archivo y generar el .exe
-// g++ Original_NN.cpp -o Original
+// g++ Neural_Network_zero.cpp -o Neural_NN
 //Código para cguardar la salida en un archivo .txt
-// ./Original > outOriginal.txt
+// ./Neural_NN > Neural_NN.txt
 //---------------------------------------------------------
 
 
@@ -123,10 +123,11 @@ public:
     Neuron(unsigned numOutputs, unsigned myIndex);
     void setOutputVal(double val) { m_outputVal = val; }
     double getOutputVal(void) const { return m_outputVal; }
-    void feedForward(Layer &prevLayer, int Nlayer, int Nneuron);
+    void feedForward(Layer &prevLayer);
     void calcOutputGradients(double targetVal);
     void calcHiddenGradients(const Layer &nextLayer);
     void updateInputWeights(Layer &prevLayer);
+    void exportWeight(Layer &prevLayer, int Nlayer, int n);
     vector<Connection> m_outputWeights;
     double m_gradient;
 
@@ -208,21 +209,28 @@ double Neuron::transferFunctionDerivative(double x)
     return 1.0 - x * x;
 }
 
-void Neuron::feedForward(Layer &prevLayer, int Nlayer, int Nneuron)
+void Neuron::feedForward(Layer &prevLayer)
 {
     double sum = 0.0;
     // Sum the previous layer's outputs (which are our inputs)
     // Include the bias node from the previous layer.
     for (unsigned n = 0; n < prevLayer.size(); ++n) {
         sum += prevLayer[n].getOutputVal()*prevLayer[n].m_outputWeights[m_myIndex].weight;
-        cout << "FeedCapa: " << Nlayer << " N: " << n << " My Index: "<< m_myIndex<< " Numero global: "<< NumberGlobalWeight<< endl;
-        cout << "FeedPeso: " << prevLayer[n].m_outputWeights[m_myIndex].weight << endl;
-        cout << "FeedSuma: " << sum << endl;
-        cout << "FeedOutputValprev: "<<prevLayer[n].getOutputVal() <<endl;
-        NumberGlobalWeight++;
    }
     m_outputVal = Neuron::transferFunction(sum);
-    cout << "FeedValor de salida: "<<m_outputVal << endl;
+
+}
+
+
+void Neuron::exportWeight(Layer &prevLayer, int Nlayer, int n)
+{
+    for (unsigned n = 0; n < prevLayer.size(); ++n) {
+        cout << "FeedCapa: " << Nlayer << " N: " << n << " My Index: "<< m_myIndex<< " Numero global: "<< NumberGlobalWeight<< endl;
+        cout << "FeedPeso: " << prevLayer[n].m_outputWeights[m_myIndex].weight << endl;
+        //cout << "FeedSuma: " << sum << endl;
+        //cout << "FeedOutputValprev: "<<prevLayer[n].getOutputVal() <<endl;
+        NumberGlobalWeight++;
+   }
 }
 
 Neuron::Neuron(unsigned numOutputs, unsigned myIndex)
@@ -246,7 +254,7 @@ public:
     void backProp(const vector<double> &targetVals);
     void getResults(vector<double> &resultVals) const;
     double getRecentAverageError(void) const { return m_recentAverageError; }
-    void ExportWeights();
+    void exportWeights();
 private:
     vector<Layer> m_layers; // m_layers[layerNum][neuronNum]
     double m_error;
@@ -255,6 +263,7 @@ private:
 };
 
 //funcion necesaria para exporytar los pesos de la red
+/*
 void Net::ExportWeights()
 {
     double peso=0.0;
@@ -272,7 +281,7 @@ void Net::ExportWeights()
     }
     cout << "end"<< endl;
 }
-
+*/
 
 double Net::m_recentAverageSmoothingFactor = 100.0; // Number of training samples to average over
 
@@ -335,29 +344,42 @@ void Net::backProp(const vector<double> &targetVals)
     }
 }
 
+
 void Net::feedForward(const vector<double> &inputVals)
 {
-
-    NumberGlobalWeight=0;
     //Check if the data have the same lenght that the input values
     //minus one due to the bias neuron of the first layer
     assert(inputVals.size() == m_layers[0].size() - 1);
-
     // Assign the input values into the input neurons
     for (int i = 0; i < inputVals.size(); ++i) {
         m_layers[0][i].setOutputVal(inputVals[i]);
-    }
-
-    // forward propagation !!!!!!!!!!!!!!! ojo con el apuntador ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ 
+    } 
     for (int layerNum = 1; layerNum < m_layers.size(); ++layerNum) {
         Layer &prevLayer = m_layers[layerNum - 1];
         //Neuron iteration without bias
         for (int n = 0; n < m_layers[layerNum].size() - 1; ++n) {
-            m_layers[layerNum][n].feedForward(prevLayer, layerNum, n);
+            m_layers[layerNum][n].feedForward(prevLayer);
 
         }
     }
 }
+
+
+void Net::exportWeights()
+{
+    NumberGlobalWeight=0;
+    for (int layerNum = 1; layerNum < m_layers.size(); ++layerNum) {
+        Layer &prevLayer = m_layers[layerNum - 1];
+        //Neuron iteration without bias
+        for (int n = 0; n < m_layers[layerNum].size() - 1; ++n) {
+            m_layers[layerNum][n].exportWeight(prevLayer, layerNum, n);
+
+        }
+    }
+}
+
+
+
 //Class net
 Net::Net(const vector<unsigned> &topology)
 {
@@ -429,9 +451,10 @@ int main()
         // Report how well the training is working, average over recent samples:
         cout << "Net recent average error: "
                 << myNet.getRecentAverageError() << endl;
-        myNet.ExportWeights();
+        
     }
 
+    myNet.exportWeights();
     cout << endl << "Done" << endl;
     
 }
