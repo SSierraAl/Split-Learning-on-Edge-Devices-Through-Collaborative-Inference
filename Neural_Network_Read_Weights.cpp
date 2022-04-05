@@ -279,14 +279,23 @@ void Neuron::calcOutputGradients(double targetVal)
 double Neuron::transferFunction(double x)
 {
     // tanh - output range [-1.0..1.0]
-
-    return tanh(x);
+    x =  tanh(x);
+    //Sigmoid
+    //x =  1/(1+exp(-x));
+    //ReLu
+    //x = max(0.0, x);
+    return x;
 }
 
 double Neuron::transferFunctionDerivative(double x)
 {
     // tanh derivative
-    return 1.0 - x * x;
+    x = 1.0 - tanh(x) * tanh(x);
+    //Sigmoid
+    //x = (1/(1+exp(-x)))*(1 - (1/(1+exp(-x))));
+    //ReLU
+    //x = x > 0.0 ? 1.0 : 0.0;
+    return x;
 }
 
 void Neuron::feedForward(Layer &prevLayer)
