@@ -1,0 +1,46 @@
+topology: 2 4
+FeedCapa: 1 N: 0 My Index: 0 Numero global: 0
+FeedPeso: 0.933814
+FeedCapa: 1 N: 1 My Index: 0 Numero global: 1
+FeedPeso: 1.00107
+FeedCapa: 1 N: 2 My Index: 0 Numero global: 2
+FeedPeso: -0.960241
+FeedCapa: 1 N: 0 My Index: 1 Numero global: 3
+FeedPeso: 1.08134
+FeedCapa: 1 N: 1 My Index: 1 Numero global: 4
+FeedPeso: 1.02857
+FeedCapa: 1 N: 2 My Index: 1 Numero global: 5
+FeedPeso: 0.0934282
+FeedCapa: 1 N: 0 My Index: 2 Numero global: 6
+FeedPeso: 0.916633
+FeedCapa: 1 N: 1 My Index: 2 Numero global: 7
+FeedPeso: 0.86311
+FeedCapa: 1 N: 2 My Index: 2 Numero global: 8
+FeedPeso: -1.09002
+FeedCapa: 1 N: 0 My Index: 3 Numero global: 9
+FeedPeso: 0.964018
+FeedCapa: 1 N: 1 My Index: 3 Numero global: 10
+FeedPeso: 1.02226
+FeedCapa: 1 N: 2 My Index: 3 Numero global: 11
+FeedPeso: 0.536481
+FeedCapa: 2 N: 0 My Index: 0 Numero global: 12
+FeedPeso: 1.52038
+FeedCapa: 2 N: 1 My Index: 0 Numero global: 13
+FeedPeso: 1.20951
+FeedCapa: 2 N: 2 My Index: 0 Numero global: 14
+FeedPeso: 0.894704
+FeedCapa: 2 N: 3 My Index: 0 Numero global: 15
+FeedPeso: 0.722336
+FeedCapa: 2 N: 4 My Index: 0 Numero global: 16
+FeedPeso: 0.0339461
+FeedCapa: 2 N: 0 My Index: 1 Numero global: 17
+FeedPeso: 1.24317
+FeedCapa: 2 N: 1 My Index: 1 Numero global: 18
+FeedPeso: -0.258106
+FeedCapa: 2 N: 2 My Index: 1 Numero global: 19
+FeedPeso: 1.58178
+FeedCapa: 2 N: 3 My Index: 1 Numero global: 20
+FeedPeso: -0.423915
+FeedCapa: 2 N: 4 My Index: 1 Numero global: 21
+FeedPeso: -0.270876
+end

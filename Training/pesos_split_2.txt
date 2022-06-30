@@ -1,0 +1,28 @@
+topology: 4 2 1
+FeedCapa: 2 N: 0 My Index: 0 Numero global: 12
+FeedPeso: 1.52038
+FeedCapa: 2 N: 1 My Index: 0 Numero global: 13
+FeedPeso: 1.20951
+FeedCapa: 2 N: 2 My Index: 0 Numero global: 14
+FeedPeso: 0.894704
+FeedCapa: 2 N: 3 My Index: 0 Numero global: 15
+FeedPeso: 0.722336
+FeedCapa: 2 N: 4 My Index: 0 Numero global: 16
+FeedPeso: 0.0339461
+FeedCapa: 2 N: 0 My Index: 1 Numero global: 17
+FeedPeso: 1.24317
+FeedCapa: 2 N: 1 My Index: 1 Numero global: 18
+FeedPeso: -0.258106
+FeedCapa: 2 N: 2 My Index: 1 Numero global: 19
+FeedPeso: 1.58178
+FeedCapa: 2 N: 3 My Index: 1 Numero global: 20
+FeedPeso: -0.423915
+FeedCapa: 2 N: 4 My Index: 1 Numero global: 21
+FeedPeso: -0.270876
+FeedCapa: 3 N: 0 My Index: 0 Numero global: 22
+FeedPeso: 1.70038
+FeedCapa: 3 N: 1 My Index: 0 Numero global: 23
+FeedPeso: -1.8443
+FeedCapa: 3 N: 2 My Index: 0 Numero global: 24
+FeedPeso: -0.343717
+end
